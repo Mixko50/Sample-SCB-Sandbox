@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 
 var accessToken: string = ""
 var expiresAt: bigint
+var request: object
 
 @Controller()
 export class AppController {
@@ -14,7 +15,7 @@ export class AppController {
     console.log(process.env.AUTORIZATION_URL);
     res.send({
       "hello": 5,
-      "sdfg": 2
+      "mixko": 2
     })
   }
 
@@ -59,8 +60,6 @@ export class AppController {
     })
     accessToken = data.data.data.accessToken
     expiresAt = data.data.data.expiresAt
-    console.log(expiresAt);
-
     res.send({ token: data.data.data.accessToken })
 
   }
@@ -79,8 +78,8 @@ export class AppController {
         amount: "100",
         ppType: "BILLERID",
         ppId: process.env.BILLER_ID,
-        ref1: "12345678",
-        ref2: "123456778",
+        ref1: "SANGONOMIYA",
+        ref2: "KOKOMI",
         ref3: "KMP"
       }, {
         headers: {
@@ -90,10 +89,28 @@ export class AppController {
           authorization: `Bearer ${accessToken}`,
         }
       })
-      console.log(createdQr);
       res.send(createdQr.data)
     } catch (e) {
       console.log(e);
     }
+  }
+
+  @Post('/callback')
+  callback(@Req() req, @Res() res): void {
+    request = req.body
+    res.status(200).send("");
+  }
+
+  @Get('/status')
+  getStatus(@Req() req, @Res() res): void {
+    res.send({ request })
+  }
+
+  @Get('/clear')
+  getClear(@Req() req, @Res() res): void {
+    request = {
+      clear: true
+    }
+    res.send({ request })
   }
 }
