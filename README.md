@@ -1,3 +1,3 @@
 # Sample-SCB-Sandbox
 
-[SCB-Sandbox](https://scb-sandbox.mixkoap.com)
+The link: https://scb-sandbox.mixkoap.com
